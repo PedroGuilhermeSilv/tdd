@@ -20,4 +20,12 @@ describe('DateRange Value Object', () => {
         const dateRange = new DateRange(startDate, endDate);
         expect(dateRange.getTotalDays()).toEqual(4);
     });
+
+    it('deve verificar se dois intervalos de datas se sobrepoem', () => {
+        const dateRange1 = new DateRange(new Date('2024-01-01'), new Date('2024-01-05'));
+        const dateRange2 = new DateRange(new Date('2024-01-03'), new Date('2024-01-07'));
+        expect(dateRange1.isOverlapping(dateRange2)).toBe(true);
+    });
+
+
 });
