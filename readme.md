@@ -33,7 +33,14 @@ Este projeto é um exemplo simplificado de um sistema de reservas de propriedade
 
 ---
 
-Fazer um reserva
-- user
-- property
-Cancelar
+
+
+# TDD
+### Tyiple A
+- Arrange
+- Action
+- Assert
+
+## Diferença Principal entre Mock e Stub
+- Stub → Apenas retorna dados pré-definidos (não verifica interações).
+- Mock → Simula comportamentos e permite verificar chamadas e argumentos usados.
