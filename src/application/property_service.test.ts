@@ -23,9 +23,9 @@ describe("PropertyService", () => {
   });
 
   it("deve salver uma nova propiedade com sucesso", async () => {
-    const property = new Property("3", "casa", "muito boa", 2, 2);
+    const property = new Property("4", "casa", "muito boa", 2, 2);
     const property_on_db = await property_service.save(property);
     expect(property_on_db).not.toBeNull();
-    expect(property_on_db?.getId()).toBe("3");
+    expect(property_on_db?.getId()).toBe("4");
   });
 });
