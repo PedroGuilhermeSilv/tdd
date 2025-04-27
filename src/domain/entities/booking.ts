@@ -1,3 +1,4 @@
+import { RefundRuleFactory } from "../cancelation/refound_rule_factory";
 import { DateRange } from "../value_objects/date_range";
 import { Property } from "./property";
 import { User } from "./user";
@@ -8,8 +9,8 @@ export class Booking {
     private readonly property: Property;
     private readonly dateRange: DateRange;
     private readonly guestCount: number;
-    private readonly status: 'CONFIRMED' | 'CANCELLED' = 'CONFIRMED';
-    private readonly totalPrice: number;
+    private status: 'CONFIRMED' | 'CANCELLED' = 'CONFIRMED';
+    private totalPrice: number;
 
     constructor(
         id: string,
@@ -57,7 +58,24 @@ export class Booking {
     getStatus(): string {
         return this.status
     }
+    setStatus(status: 'CONFIRMED' | 'CANCELLED'): void {
+        this.status = status
+    }
     getTotalPrice(): number {
         return this.totalPrice
+    }
+    cancel(currentDate: Date): void {
+        if (this.status === "CANCELLED") {
+            throw "A reserva já foi cancelada"
+        }
+
+        const diffTime = this.dateRange.getStartDate().getTime() - currentDate.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        const refundRule = RefundRuleFactory.getRefundRule(diffDays)
+        this.totalPrice = refundRule.calculateRefund(this.totalPrice)
+        this.status = "CANCELLED"
+
+
     }
 }

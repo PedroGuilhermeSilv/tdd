@@ -76,5 +76,61 @@ describe('Booking entity', () => {
 
     })
 
+    it("deve cancelar uma reserva sem reembolso quando faltam menos de 1 dia para o check-in", () => {
+        const property = new Property('1', 'Ccasa', 'Descrição', 4, 300)
+        const user = new User("1", "João Silva")
+        const dateRange = new DateRange(new Date('2024-12-01'), new Date('2024-12-10'))
+
+        const booking = new Booking('1', property, user, dateRange, 2)
+        const currentDate = new Date('2024-12-01');
+        booking.cancel(currentDate)
+
+        expect(booking.getStatus()).toBe("CANCELLED")
+        expect(booking.getTotalPrice()).toBe(300 * 9 * 0.9)
+    })
+
+    it("deve cancelar uma reserva com reembolso quando faltam menos de 7 dias para o check-in", () => {
+        const property = new Property('1', 'Ccasa', 'Descrição', 4, 300)
+        const user = new User("1", "João Silva")
+        const dateRange = new DateRange(new Date('2024-12-01'), new Date('2024-12-10'))
+
+        const booking = new Booking('1', property, user, dateRange, 2)
+        const currentDate = new Date('2024-11-20');
+        booking.cancel(currentDate)
+
+        expect(booking.getStatus()).toBe("CANCELLED")
+        expect(booking.getTotalPrice()).toBe(0)
+    })
+
+
+    it("deve cancelar uma reserva com reembolso parcial quando tive entre 1 e 7 dias para o check-in", () => {
+        const property = new Property('1', 'Ccasa', 'Descrição', 4, 300)
+        const user = new User("1", "João Silva")
+        const dateRange = new DateRange(new Date('2024-12-01'), new Date('2024-12-10'))
+
+        const booking = new Booking('1', property, user, dateRange, 2)
+        const currentDate = new Date('2024-11-30');
+        booking.cancel(currentDate)
+
+        expect(booking.getStatus()).toBe("CANCELLED")
+        expect(booking.getTotalPrice()).toBe(300 * 9 * 0.9 * 0.5)
+    })
+
+
+    it("não deve permitir cancelar uma reserva mais de uma vez", () => {
+        const property = new Property('1', 'Ccasa', 'Descrição', 4, 300)
+        const user = new User("1", "João Silva")
+        const dateRange = new DateRange(new Date('2024-12-01'), new Date('2024-12-10'))
+
+        const booking = new Booking('1', property, user, dateRange, 2)
+        const currentDate = new Date('2024-11-30');
+        booking.cancel(currentDate)
+
+        expect(() => {
+            booking.cancel(currentDate)
+        }).toThrow("A reserva já foi cancelada")
+    })
+
+
 
 })
