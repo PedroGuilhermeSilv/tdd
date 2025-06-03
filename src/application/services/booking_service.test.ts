@@ -1,5 +1,5 @@
 import { Booking } from "../../domain/entities/booking";
-import { FakeBookingRepository } from "../../infrastructure/fake_booking_repository";
+import { FakeBookingRepository } from "../../infrastructure/repositories/fake_booking_repository";
 import { CreateBookingDto } from "../dtos/create_booking_dto";
 import { BookingService } from "./booking_service";
 import { PropertyService } from "./property_service";

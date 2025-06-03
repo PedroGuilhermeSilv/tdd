@@ -1,5 +1,5 @@
-import { Booking } from "../domain/entities/booking";
-import { IBookingRepository } from "../domain/entities/repositories/booking_repository";
+import { Booking } from "../../domain/entities/booking";
+import { IBookingRepository } from "../../domain/entities/repositories/booking_repository";
 
 export class FakeBookingRepository implements IBookingRepository {
   private bookings: Booking[] = [];
